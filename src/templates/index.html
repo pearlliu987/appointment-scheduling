@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+    <h1>Schedule an office hour appointment</h1>
+    <form action="/signup" method="post">
+        <input name="name" placeholder="Name" required type="text">
+        <select name="date" id="date" required>
+            {% for date in dates %}
+            <option value="{{ date[0] }}">{{ date[0] }}</option>
+            {% endfor %}
+        </select>
+        <select name="time" id="time" required>
+            {% for time in earliest_date_times %} 
+                <option value="{{ time[0] }}">{{ time[0] }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Sign up</button>
+    </form>
+
+    <script>
+        const d = document.querySelector("#date");
+        d.addEventListener("change", async function() {
+            let response = await fetch("/times?date=" + d.options[d.selectedIndex].value);
+            let times = await response.text();
+            document.querySelector("#time").innerHTML = times;
+        });
+    </script>
+
+{% endblock %}
