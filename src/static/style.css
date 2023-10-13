@@ -1,0 +1,10 @@
+body {
+    background-color: rgb(240, 230, 255);
+    color: rgb(64, 0, 128);
+    text-align: center;
+}
+
+input, select, button {
+    background-color: white;
+    color: rgb(64, 0, 128);
+}
