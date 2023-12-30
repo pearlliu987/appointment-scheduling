@@ -1,10 +1,14 @@
 body {
-    background-color: rgb(240, 230, 255);
-    color: rgb(64, 0, 128);
+    background-color: rgb(215, 220, 255);
+    color: rgb(80, 0, 128);
     text-align: center;
+}
+
+h1 {
+    color: rgb(20, 0, 90);
 }
 
 input, select, button {
     background-color: white;
-    color: rgb(64, 0, 128);
+    color: rgb(80, 0, 128);
 }
