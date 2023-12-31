@@ -4,8 +4,17 @@ body {
     text-align: center;
 }
 
-h1 {
+a:link, a:visited {
+    color: rgb(70, 70, 150);
+}
+
+a:hover, a:active {
+    color: rgb(80, 0, 128);
+}
+
+a.page-title {
     color: rgb(20, 0, 90);
+    text-decoration: none;
 }
 
 input, select, button {
