@@ -23,9 +23,10 @@ def signup():
         t = request.form.get("time")
 
         if len(n) > 0:
-            cursor.execute("SELECT * FROM appointments WHERE name IS null AND date=? AND time=?", (d, t))
-            if (cursor.fetchone()):
-                cursor.execute("UPDATE appointments SET name=? WHERE rowid IN (SELECT rowid FROM appointments WHERE name IS null AND date=? AND time=? LIMIT 1)", (n, d, t))
+            cursor.execute("SELECT rowid FROM appointments WHERE name IS null AND date=? AND time=?", (d, t))
+            appt = cursor.fetchone()
+            if (appt):
+                cursor.execute("UPDATE appointments SET name=? WHERE rowid=?", (n, appt[0]))
                 return render_template("success.html", name=n, date=d, time=t)
         
         return render_template("failure.html")
