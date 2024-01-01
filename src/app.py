@@ -27,7 +27,7 @@ def signup():
             appt = cursor.fetchone()
             if (appt):
                 cursor.execute("UPDATE appointments SET name=? WHERE rowid=?", (n, appt[0]))
-                return render_template("success.html", name=n, date=d, time=t)
+                return render_template("scheduled.html", name=n, date=d, time=t)
         
         return render_template("failure.html")
 
