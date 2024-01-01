@@ -1,11 +1,19 @@
-from flask import Flask, render_template, redirect, request, url_for
+from flask import Flask, render_template, redirect, request, session, url_for
+from flask_session import Session
 import sqlite3
 
+# Connect to database
 connection = sqlite3.connect("appointments.db", check_same_thread=False, isolation_level=None)
 cursor = connection.cursor()
 cursor.execute("CREATE TABLE IF NOT EXISTS appointments (name TEXT, date TEXT, time TEXT, timestamp TEXT)")
 
+# Configure app
 app = Flask(__name__)
+
+# Configure session
+app.config["SESSION_PERMANENT"] = False
+app.config["SESSION_TYPE"] = "filesystem"
+Session(app) 
 
 @app.route("/")
 def index():
