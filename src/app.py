@@ -33,6 +33,12 @@ def signup():
 
     return redirect("/")
 
+@app.route("/upcoming")
+def upcoming(): 
+    cursor.execute("SELECT name, date, time FROM appointments WHERE date >= DATE('now') AND name IS NOT null ORDER BY date")
+    upcoming_appts = cursor.fetchall()
+    return render_template("upcoming.html", upcoming_appts=upcoming_appts)
+
 @app.route("/times")
 def times():
     selected_date = request.args.get("date")
