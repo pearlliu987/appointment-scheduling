@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, request
+from flask import Flask, render_template, redirect, request, url_for
 import sqlite3
 
 connection = sqlite3.connect("appointments.db", check_same_thread=False, isolation_level=None)
@@ -31,7 +31,7 @@ def signup():
         
         return render_template("failure.html")
 
-    return redirect("/")
+    return redirect(url_for("index"))
 
 @app.route("/upcoming")
 def upcoming(): 
