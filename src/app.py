@@ -3,7 +3,7 @@ import sqlite3
 
 connection = sqlite3.connect("appointments.db", check_same_thread=False, isolation_level=None)
 cursor = connection.cursor()
-cursor.execute("CREATE TABLE IF NOT EXISTS appointments (name TEXT, date TEXT, time TEXT)")
+cursor.execute("CREATE TABLE IF NOT EXISTS appointments (name TEXT, date TEXT, time TEXT, timestamp TEXT)")
 
 app = Flask(__name__)
 
@@ -26,7 +26,7 @@ def signup():
             cursor.execute("SELECT rowid FROM appointments WHERE name IS null AND date=? AND time=?", (d, t))
             appt = cursor.fetchone()
             if (appt):
-                cursor.execute("UPDATE appointments SET name=? WHERE rowid=?", (n, appt[0]))
+                cursor.execute("UPDATE appointments SET name=?, timestamp=DATETIME('now', 'localtime') WHERE rowid=?", (n, appt[0]))
                 return render_template("scheduled.html", name=n, date=d, time=t)
         
         return render_template("failure.html")
@@ -35,7 +35,7 @@ def signup():
 
 @app.route("/upcoming")
 def upcoming(): 
-    cursor.execute("SELECT name, date, time FROM appointments WHERE date >= DATE('now') AND name IS NOT null ORDER BY date")
+    cursor.execute("SELECT name, date, time FROM appointments WHERE date >= DATE('now', 'localtime') AND name IS NOT null ORDER BY date")
     upcoming_appts = cursor.fetchall()
     return render_template("upcoming.html", upcoming_appts=upcoming_appts)
 
