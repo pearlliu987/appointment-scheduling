@@ -11,7 +11,7 @@ app = Flask(__name__)
 def index():
     cursor.execute("SELECT DISTINCT date FROM appointments WHERE name IS null ORDER BY date")
     dates = cursor.fetchall()
-    cursor.execute("SELECT DISTINCT time FROM appointments WHERE name IS null AND date IN (SELECT DISTINCT date FROM appointments WHERE name IS null ORDER BY date LIMIT 1)")
+    cursor.execute("SELECT DISTINCT time FROM appointments WHERE name IS null AND date IN (SELECT DISTINCT date FROM appointments WHERE name IS null ORDER BY date LIMIT 1) ORDER BY time")
     earliest_date_times = cursor.fetchall()
     return render_template("index.html", dates=dates, earliest_date_times=earliest_date_times)
 
