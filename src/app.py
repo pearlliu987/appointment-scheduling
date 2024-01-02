@@ -17,6 +17,8 @@ Session(app)
 
 @app.route("/")
 def index():
+    session.pop("appt", None)
+    
     cursor.execute("SELECT DISTINCT date FROM appointments WHERE name IS null AND date >= DATE('now', 'localtime') AND date <= DATE('now', 'localtime', '+2 day') ORDER BY date")
     dates = cursor.fetchall()
     cursor.execute("SELECT DISTINCT time FROM appointments WHERE name IS null AND date IN (SELECT DISTINCT date FROM appointments WHERE name IS null AND date >= DATE('now', 'localtime') AND date <= DATE('now', 'localtime', '+2 day') ORDER BY date LIMIT 1) ORDER BY time")
@@ -35,10 +37,23 @@ def signup():
             appt = cursor.fetchone()
             if (appt):
                 cursor.execute("UPDATE appointments SET name=?, timestamp=DATETIME('now', 'localtime') WHERE rowid=?", (n, appt[0]))
+                session["appt"] = appt[0]
                 return render_template("scheduled.html", name=n, date=d, time=t)
         
         return render_template("failure.html")
 
+    return redirect(url_for("index"))
+
+@app.route("/cancel", methods=["GET", "POST"])
+def cancel():
+    if request.method == "POST":
+        appt = str(session["appt"])
+        cursor.execute("SELECT name, date, time FROM appointments WHERE rowid=?", (appt,))
+        deleted = cursor.fetchone()
+        cursor.execute("UPDATE appointments SET name=null, timestamp=null WHERE rowid=?", (appt,))
+        session.pop("appt", None)
+        return render_template("cancelled.html", name=deleted[0], date=deleted[1], time=deleted[2])
+    
     return redirect(url_for("index"))
 
 @app.route("/upcoming")
