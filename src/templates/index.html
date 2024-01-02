@@ -2,7 +2,7 @@
 
 {% block body %}
 
-    <h1>Schedule an office hour appointment</h1>
+    <h2>Schedule an office hour appointment</h2>
     <form action="/signup" method="post">
         <input name="name" placeholder="Name" required type="text">
         <select name="date" id="date" required>
@@ -17,6 +17,8 @@
         </select>
         <button type="submit">Sign up</button>
     </form>
+
+    <h2><a href="/upcoming">View upcoming scheduled appointments</a></h2>
 
     <script>
         const d = document.querySelector("#date");
