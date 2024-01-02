@@ -1,0 +1,7 @@
+{% extends "layout.html" %}
+
+{% block body %}
+    <p>Appointment scheduled for {{ name }} at {{ time }} on {{ date }}.</p>
+
+    <p>Didn't intend to schedule this appointment? <form action="/cancel" method="post"><button type="submit">Click here to cancel.</button></form></p>
+{% endblock %}

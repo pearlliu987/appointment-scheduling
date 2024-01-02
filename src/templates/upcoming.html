@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+
+{% block body %}
+    <h2>Upcoming Scheduled Appointments</h2>
+
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Date</th>
+            <th>Time</th>
+        </tr>
+        {% for appt in upcoming_appts %}
+            <tr>
+                <td>{{ appt[0] }}</td>
+                <td>{{ appt[1] }}</td>
+                <td>{{ appt[2] }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+        
+
+{% endblock %}
